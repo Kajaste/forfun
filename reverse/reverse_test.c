@@ -14,7 +14,7 @@
 typedef bool(*TesterFunction)(const char* in, const char* expected_out);
 
 /*
- * Implement POSIX strdup() self for portability (ISO C99 conformance).
+ * Implement POSIX strdup() self for portability (ISO C11 conformance).
  * http://pubs.opengroup.org/onlinepubs/009695399/functions/strdup.html
  *
  * Unlike most implementations, this safe_strdup() returns NULL when
