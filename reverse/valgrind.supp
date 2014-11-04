@@ -1,0 +1,9 @@
+{
+   IntentionalMinusOneToMalloc
+   Memcheck:FishyValue
+   malloc(size)
+   fun:malloc
+   fun:reverse_copy_n
+   fun:test_reverse_copy
+   fun:main
+}
