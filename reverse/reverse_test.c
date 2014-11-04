@@ -22,15 +22,15 @@ typedef bool(*TesterFunction)(const char* in, const char* expected_out);
  */
 char* safe_strdup(const char* str)
 {
-	char* newstr = NULL;
-	if (str) {
-		size_t len = strlen(str);
-		newstr = malloc((len + 1)*sizeof(char));
-		if (newstr) {
-			memcpy(newstr, str, len + 1);
-		}
-	}
-	return newstr;
+    char* newstr = NULL;
+    if (str) {
+        size_t len = strlen(str);
+        newstr = malloc((len + 1)*sizeof(char));
+        if (newstr) {
+            memcpy(newstr, str, len + 1);
+        }
+    }
+    return newstr;
 }
 
 /*
@@ -38,14 +38,13 @@ char* safe_strdup(const char* str)
  */
 bool assert_str_equal(const char* tester, const char* str1, const char* str2)
 {
-	bool passed = true;
-	if (((str1 && !str2) || (str2 && !str1)) ||
-	    (str1 && str2 && strcmp(str1, str2))) {
-		passed = false;
-	}
-	printf("[%s] %s '%s' vs '%s'\n",
-	       (passed) ? "pass" : "fail", tester, str1, str2);
-	return passed;
+    bool passed = false;
+    if ((!str1 && !str2) || !strcmp(str1, str2)) {
+        passed = true;
+    }
+    printf("[%s] %s '%s' vs '%s'\n",
+           (passed) ? "pass" : "fail", tester, str1, str2);
+    return passed;
 }
 
 /*
@@ -53,10 +52,10 @@ bool assert_str_equal(const char* tester, const char* str1, const char* str2)
  */
 bool test_reverse(const char* in, const char* expected_out)
 {
-	char* reversed = reverse(safe_strdup(in));
-	bool passed = assert_str_equal(__func__, reversed, expected_out);
-	free(reversed);
-	return passed;
+    char* reversed = reverse(safe_strdup(in));
+    bool passed = assert_str_equal(__func__, reversed, expected_out);
+    free(reversed);
+    return passed;
 }
 
 /*
@@ -64,49 +63,49 @@ bool test_reverse(const char* in, const char* expected_out)
  */
 bool test_reverse_copy(const char* in, const char* expected_out)
 {
-	char* reversed = reverse_copy(in);
-	bool passed = assert_str_equal(__func__, reversed, expected_out);
-	char* reversed_malloc_fail = reverse_copy_n(in, -2);
-	passed &= assert_str_equal(__func__, reversed_malloc_fail, NULL);
-	free(reversed);
-	return passed;
+    char* reversed = reverse_copy(in);
+    bool passed = assert_str_equal(__func__, reversed, expected_out);
+    char* reversed_malloc_fail = reverse_copy_n(in, -2);
+    passed &= assert_str_equal(__func__, reversed_malloc_fail, NULL);
+    free(reversed);
+    return passed;
 }
 
 bool test_reverse_partial(void)
 {
-	bool passed = true;
+    bool passed = true;
 
-	char* reversed_partial = reverse_n(safe_strdup("123456"), 3);
-	passed &= assert_str_equal("test_partial", reversed_partial, "321456");
-	free(reversed_partial);
+    char* reversed_partial = reverse_n(safe_strdup("123456"), 3);
+    passed &= assert_str_equal("test_partial", reversed_partial, "321456");
+    free(reversed_partial);
 
-	char* reversed_partial_copy = reverse_copy_n("123456", 3);
-	passed &= assert_str_equal("test_partial_copy",
-	                           reversed_partial_copy,
-	                           "321");
-	free(reversed_partial_copy);
+    char* reversed_partial_copy = reverse_copy_n("123456", 3);
+    passed &= assert_str_equal("test_partial_copy",
+                               reversed_partial_copy,
+                               "321");
+    free(reversed_partial_copy);
 
-	return passed;
+    return passed;
 }
 
 int main(void)
 {
-	bool passed = true;
+    bool passed = true;
 
-	TesterFunction testers[] = { test_reverse, test_reverse_copy, NULL };
+    TesterFunction testers[] = { test_reverse, test_reverse_copy, NULL };
 
-	for (TesterFunction* tester = testers; *tester; ++tester) {
-		passed &= (*tester)(NULL, NULL);
-		passed &= (*tester)("", "");
-		passed &= (*tester)("1", "1");
-		passed &= (*tester)("12", "21");
-		passed &= (*tester)("123", "321");
-		passed &= (*tester)("123456", "654321");
-		passed &= (*tester)("1234567", "7654321");
-	}
+    for (TesterFunction* tester = testers; *tester; ++tester) {
+        passed &= (*tester)(NULL, NULL);
+        passed &= (*tester)("", "");
+        passed &= (*tester)("1", "1");
+        passed &= (*tester)("12", "21");
+        passed &= (*tester)("123", "321");
+        passed &= (*tester)("123456", "654321");
+        passed &= (*tester)("1234567", "7654321");
+    }
 
-	passed &= test_reverse_partial();
+    passed &= test_reverse_partial();
 
-	printf("Tests %s!\n", (passed) ? "passed" : "failed");
-	return !passed;
+    printf("Tests %s!\n", (passed) ? "passed" : "failed");
+    return !passed;
 }

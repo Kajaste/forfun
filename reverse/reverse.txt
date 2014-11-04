@@ -1,9 +1,9 @@
 ##
-# Compile using ISO C99 mode, error checking and coverage information.
+# Compile using ISO C11 mode, error checking and coverage information.
 ##
 
-$ gcc -c reverse.c -Wall -Wextra -Werror -std=c99 -fprofile-arcs -ftest-coverage
-$ gcc -c reverse_test.c -Wall -Wextra -Werror -std=c99
+$ gcc -c reverse.c -Wall -Wextra -Werror -std=c11 -fprofile-arcs -ftest-coverage
+$ gcc -c reverse_test.c -Wall -Wextra -Werror -std=c11
 $ gcc -o reverse_test reverse.o reverse_test.o -fprofile-arcs
 
 
