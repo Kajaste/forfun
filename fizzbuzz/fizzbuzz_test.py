@@ -4,11 +4,7 @@ import unittest
 import fizzbuzz
 
 
-<<<<<<< HEAD
 class FizzBuzzTestCase(unittest.TestCase):
-=======
-class DefaultWidgetSizeTestCase(unittest.TestCase):
->>>>>>> ddc581abd958a98bd327c3f33ba47704ffb4ca47
     def runTest(self):
         ''' Test that the solution works as intended '''
 
