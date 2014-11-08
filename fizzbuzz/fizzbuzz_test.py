@@ -10,6 +10,7 @@ import fizzbuzz
 
 class FizzBuzzTestCase(unittest.TestCase):
     ''' Test case for Fizz Buzz '''
+
     def test_word_pick(self):
         ''' Test that correct output is picked for numbers '''
         self.assertEqual(fizzbuzz.fizz_buzz_or_fizzbuzz(1), '1')
