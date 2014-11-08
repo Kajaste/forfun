@@ -7,29 +7,6 @@ Baby code solution for Fizz Buzz
 import sys
 
 
-def fizz_buzz_or_fizzbuzz(number):
-    ''' Pick Fizz, Buzz, FizzBuzz or just the number '''
-
-    def divisible_by(divisor):
-        ''' Check whether the number is divisible by the divisor or not '''
-        return number % divisor == 0
-
-    if divisible_by(15):
-        return 'Fizz Buzz'
-    elif divisible_by(3):
-        return 'Fizz'
-    elif divisible_by(5):
-        return 'Buzz'
-    else:
-        return str(number)
-
-
-def fizzbuzz(how_many):
-    ''' Formulate the result string '''
-    return ', '.join([fizz_buzz_or_fizzbuzz(i)
-                      for i in xrange(1, how_many + 1)])
-
-
 def main():
     ''' Get the number of items to print or tell the user to provide it '''
     try:
@@ -45,6 +22,29 @@ def test():
     '26, Fizz, 28, 29, Fizz Buzz, 31, 32, Fizz, 34, Buzz, Fizz'
 
     assert fizzbuzz(36) == expected_36
+
+
+def fizzbuzz(how_many):
+    ''' Construct the result string '''
+    return ', '.join([fizz_buzz_or_fizzbuzz(i)
+                      for i in xrange(1, how_many + 1)])
+
+
+def fizz_buzz_or_fizzbuzz(number):
+    ''' Pick Fizz, Buzz, FizzBuzz or just the number '''
+
+    def divisible_by(divisor):
+        ''' Check whether the number is divisible by the divisor or not '''
+        return number % divisor == 0
+
+    if divisible_by(15):
+        return 'Fizz Buzz'
+    elif divisible_by(3):
+        return 'Fizz'
+    elif divisible_by(5):
+        return 'Buzz'
+    else:
+        return str(number)
 
 
 if __name__ == '__main__':
