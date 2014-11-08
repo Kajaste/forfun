@@ -22,7 +22,7 @@ def fizzbuzz(how_many):
 
 
 def fizz_buzz_or_fizzbuzz(number):
-    ''' Pick Fizz, Buzz, FizzBuzz or just the number '''
+    ''' Pick Fizz, Buzz, Fizz Buzz or just the number '''
 
     def divisible_by(divisor):
         ''' Check whether the number is divisible by the divisor or not '''
