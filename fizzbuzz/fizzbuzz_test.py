@@ -15,7 +15,9 @@ class FizzBuzzTestCase(unittest.TestCase):
         ''' Test that correct output is picked for numbers '''
         self.assertEqual(fizzbuzz.fizz_buzz_or_fizzbuzz(1), '1')
         self.assertEqual(fizzbuzz.fizz_buzz_or_fizzbuzz(3), 'Fizz')
+        self.assertEqual(fizzbuzz.fizz_buzz_or_fizzbuzz(4), '4')
         self.assertEqual(fizzbuzz.fizz_buzz_or_fizzbuzz(5), 'Buzz')
+        self.assertEqual(fizzbuzz.fizz_buzz_or_fizzbuzz(14), '14')
         self.assertEqual(fizzbuzz.fizz_buzz_or_fizzbuzz(15), 'Fizz Buzz')
         self.assertEqual(fizzbuzz.fizz_buzz_or_fizzbuzz(16), '16')
 
