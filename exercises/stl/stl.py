@@ -35,7 +35,7 @@ def word_in_groups(groups, word):
 
 def main():
     n, message = read_n_and_message(sys.stdin)
-    
+
     for word in WORDS:
         groups = scan_message(n, message, word)
         if word_in_groups(groups, word):

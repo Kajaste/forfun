@@ -56,7 +56,7 @@ def walk_pipes(lines, ends):
                 continue
             walked_len += 1
             walked.add((vpos, hpos))
-                
+
     return max_len
 
 def main():

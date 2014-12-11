@@ -14,7 +14,7 @@ def main():
         else:
             print (row -n +1) * ' ' + '*' + ((2*n -3) - 2*(row - n +1))*' ' + '*'
         loop(row +1, n)
-        
+
     n = int(sys.stdin.readline())
     if n <= 0:
         return
@@ -22,6 +22,6 @@ def main():
         print '*'
     else:
         loop(0, n)
-    
+
 if __name__ == '__main__':
     main()

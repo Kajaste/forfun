@@ -25,7 +25,7 @@ def get_neighbors(lines, cell):
     vpos = cell[0]
     hpos = cell[1]
     u, ur, r, dr, d, dl, l, ul = None, None, None, None, None, None, None, None
-    
+
     if vpos != 0:
         u = (vpos - 1, hpos)
         if hpos != 0:
@@ -43,7 +43,7 @@ def get_neighbors(lines, cell):
     if hpos != colmax:
         r = (vpos, hpos + 1)
     return u, ur, r, dr, d, dl, l, ul
-    
+
 def count_neighbors(lines, nbrs, liveness):
     count = 0
     for nbr in nbrs:
