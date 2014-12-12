@@ -35,18 +35,20 @@ def end_is_possible(lines, vpos, hpos, ends):
 
 def walk_pipes(lines, ends):
     max_len = 0
+    max_vpos = len(lines) - 1
+    max_hpos = len(lines[0]) - 1
     while len(ends) != 0:
         walked = set([])
         walked_len = 1
         vpos, hpos = ends.pop()
         while True:
-            if lines[vpos][hpos + 1] in (HPIPE, XING) and not (vpos, hpos + 1) in walked:
+            if hpos < max_hpos and lines[vpos][hpos + 1] in (HPIPE, XING) and not (vpos, hpos + 1) in walked:
                 hpos += 1
-            elif lines[vpos][hpos - 1] in (HPIPE, XING) and not (vpos, hpos - 1) in walked:
+            elif hpos > 0 and lines[vpos][hpos - 1] in (HPIPE, XING) and not (vpos, hpos - 1) in walked:
                 hpos -= 1
-            elif lines[vpos + 1][hpos] in (VPIPE, XING) and not (vpos + 1, hpos) in walked:
+            elif vpos < max_vpos and lines[vpos + 1][hpos] in (VPIPE, XING) and not (vpos + 1, hpos) in walked:
                 vpos += 1
-            elif lines[vpos - 1][hpos] in (VPIPE, XING) and not (vpos - 1, hpos) in walked:
+            elif vpos > 0 and lines[vpos - 1][hpos] in (VPIPE, XING) and not (vpos - 1, hpos) in walked:
                 vpos -= 1
             elif end_is_possible(lines, vpos, hpos, ends):
                 if walked_len + 1 > max_len:
