@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import sys
 
 X = 'x'
@@ -47,8 +45,4 @@ def print_game(game):
     print ('\n' + BORDERLINE + '\n').join([DELIMITER.join(row)
                                            for row in game])
 
-def main():
-    print_game(solve_game(parse_game(sys.stdin)))
-
-if __name__ == '__main__':
-    main()
+print_game(solve_game(parse_game(sys.stdin)))

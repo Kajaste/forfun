@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import sys, itertools
 
 WORDS = ['professionalism', 'respect', 'perseverance']
@@ -40,15 +38,11 @@ def word_in_groups(groups, word):
         if not counts_fail(lc_w, lettercount(group)):
             return True
 
-def main():
-    n, message = read_n_and_message(sys.stdin)
+n, message = read_n_and_message(sys.stdin)
 
-    for word in WORDS:
-        groups = scan_message(n, message, word)
-        if word_in_groups(groups, word):
-            print 'True'
-            return
-    print 'False'
-
-if __name__ == '__main__':
-    main()
+for word in WORDS:
+    groups = scan_message(n, message, word)
+    if word_in_groups(groups, word):
+        print 'True'
+        sys.exit(0)
+print 'False'

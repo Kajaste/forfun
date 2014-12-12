@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import copy
 import sys
 
@@ -68,12 +66,8 @@ def determine_fates(lines, live_cells, dead_cells):
 def print_world(lines):
     print '\n'.join(''.join(line) for line in lines)
 
-def main():
-    lines = read_lines(sys.stdin)
-    live_cells = mark_cells(lines, LIVE)
-    dead_cells = mark_cells(lines, DEAD)
-    new_lines = determine_fates(lines, live_cells, dead_cells)
-    print_world(new_lines)
-
-if __name__ == '__main__':
-    main()
+lines = read_lines(sys.stdin)
+live_cells = mark_cells(lines, LIVE)
+dead_cells = mark_cells(lines, DEAD)
+new_lines = determine_fates(lines, live_cells, dead_cells)
+print_world(new_lines)

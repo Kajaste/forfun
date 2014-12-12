@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 import sys
 
 def read_n(f):
@@ -19,14 +17,10 @@ def iterate(n):
             largest = n
     return largest
 
-def main():
-    n = read_n(sys.stdin)
-    largest = 0
-    while n > 1:
-        largest_in_seq = iterate(n)
-        largest = largest_in_seq if largest_in_seq > largest else largest
-        n -= 1
-    print largest
-
-if __name__ == '__main__':
-    main()
+n = read_n(sys.stdin)
+largest = 0
+while n > 1:
+    largest_in_seq = iterate(n)
+    largest = largest_in_seq if largest_in_seq > largest else largest
+    n -= 1
+print largest

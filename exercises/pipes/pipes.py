@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import sys
 
 END = '#'
@@ -61,10 +59,6 @@ def walk_pipes(lines, ends):
 
     return max_len
 
-def main():
-    lines = read_lines(sys.stdin)
-    ends = find_ends(lines)
-    print walk_pipes(lines, ends)
-
-if __name__ == '__main__':
-    main()
+lines = read_lines(sys.stdin)
+ends = find_ends(lines)
+print walk_pipes(lines, ends)

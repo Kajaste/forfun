@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 NTH = ['', 'first', 'second', 'third', 'fourth', 'fifth', 'sixth',
        'seventh', 'eighth', 'ninth', 'tenth', 'eleventh', 'first']
 
@@ -27,8 +25,4 @@ def do_it():
         STUFFS[-1] = 'and a Partridge in a Pear Tree'
     return strings
 
-def main():
-    print '\n\n'.join(do_it())
-
-if __name__ == '__main__':
-    main()
+print '\n\n'.join(do_it())
