@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys
+import sys, itertools
 
 WORDS = ['professionalism', 'respect', 'perseverance']
 
@@ -27,11 +27,18 @@ def scan_message(n, message, word):
         groups.append(group)
     return groups
 
+def lettercount(word):
+    return dict((x, len(list(y))) for x, y in itertools.groupby(sorted(word)))
+
 def word_in_groups(groups, word):
+    def counts_fail(lc_w, lc_g):
+        for l, c in lc_w.items():
+            if l not in lc_g or lc_g[l] < c:
+                return True
+    lc_w = lettercount(word)
     for group in groups:
-        if sorted(group) == sorted(word):
+        if not counts_fail(lc_w, lettercount(group)):
             return True
-    return False
 
 def main():
     n, message = read_n_and_message(sys.stdin)

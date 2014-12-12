@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for tc in {1..7}; do
+for tc in {1..8}; do
     ./stl.py < tc${tc}-in.txt > tc-actual.txt
     diff tc${tc}-out.txt tc-actual.txt \
         && echo "tc-${tc} passed..." \
