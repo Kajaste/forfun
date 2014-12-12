@@ -21,7 +21,11 @@ def iterate(n):
 
 def main():
     n = read_n(sys.stdin)
-    largest = iterate(n)
+    largest = 0
+    while n > 1:
+        largest_in_seq = iterate(n)
+        largest = largest_in_seq if largest_in_seq > largest else largest
+        n -= 1
     print largest
 
 if __name__ == '__main__':
