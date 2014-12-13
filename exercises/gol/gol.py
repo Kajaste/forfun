@@ -9,14 +9,6 @@ def read_lines(f):
              if len(line.rstrip()) != 0]
     return lines
 
-def mark_cells(lines, cell):
-    cells = []
-    for linenum, line in enumerate(lines):
-        for colnum, char in enumerate(line):
-            if char == cell:
-                cells.append((linenum, colnum))
-    return cells
-
 def get_neighbors(lines, cell):
     rowmax = len(lines) - 1
     colmax = len(lines[0]) - 1
@@ -49,7 +41,7 @@ def count_neighbors(lines, nbrs, liveness):
             count += 1
     return count
 
-def determine_fates(lines, live_cells, dead_cells):
+def determine_fates(lines):
     new_lines = copy.deepcopy(lines)
     for rownum, row in enumerate(lines):
         for colnum, cell in enumerate(row):
@@ -67,7 +59,5 @@ def print_world(lines):
     print '\n'.join(''.join(line) for line in lines)
 
 lines = read_lines(sys.stdin)
-live_cells = mark_cells(lines, LIVE)
-dead_cells = mark_cells(lines, DEAD)
-new_lines = determine_fates(lines, live_cells, dead_cells)
+new_lines = determine_fates(lines)
 print_world(new_lines)
