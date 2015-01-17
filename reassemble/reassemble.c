@@ -1,5 +1,6 @@
 // http://web.stanford.edu/class/cs107/assign1
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -65,9 +66,7 @@ FragmentHolder* fragmentholder_create(void)
 static inline
 int fragmentholder_append(FragmentHolder* fh, const char* string, int length)
 {
-    if (fh->count == FRAGMENT_MAX_COUNT) {
-        return -1;
-    }
+    assert(fh->count < FRAGMENT_MAX_COUNT);
     fh->fragments[fh->count++] = fragment_create(string, length);
     return 0;
 }
@@ -117,12 +116,8 @@ FragmentHolder* get_fragments(const char* filename)
         }
 
         while ((c = fgetc(f)) != FRAGMENT_CLOSE && c != EOF) {
-            if (bufptr - buffer <= FRAGMENT_MAX_LEN) {
-                *(bufptr++) = (char)c;
-            }
-            else {
-                exit(EXIT_FAILURE);
-            }
+            assert(bufptr - buffer <= FRAGMENT_MAX_LEN);
+            *(bufptr++) = (char)c;
         }
 
         if (c == FRAGMENT_CLOSE) {
@@ -205,38 +200,39 @@ typedef struct {
 
 Pair get_max_overlap_pair(FragmentHolder* fh)
 {
-    int max_overlap = 0;
     Pair max_pair = { 0 };
 
-    Fragment* endptr = &fh->fragments[fh->count];
+    const Fragment* endptr = &fh->fragments[fh->count];
     for (Fragment* ptri = fh->fragments; ptri < endptr - 1; ++ptri) {
         for (Fragment* ptrj = ptri + 1; ptrj < endptr; ++ptrj) {
             Fragment* longer = (ptri->length >= ptrj->length) ? ptri : ptrj;
             Fragment* shorter = (ptri->length >= ptrj->length) ? ptrj : ptri;
 
-            if (shorter->length <= max_overlap) {
+            if (shorter->length <= max_pair.overlap) {
                 continue;
             }
 
             int longer_pos;
             int shorter_pos;
-            int overlap = greedy_match(longer, shorter, max_overlap + 1,
+            int overlap = greedy_match(longer, shorter, max_pair.overlap + 1,
                                        &longer_pos, &shorter_pos);
 
-            if (overlap > max_overlap) {
-                Pair p = { longer, shorter, longer_pos, shorter_pos, overlap };
-                max_pair = p;
-                max_overlap = overlap;
+            if (overlap > max_pair.overlap) {
+                max_pair.longer = longer;
+                max_pair.shorter = shorter;
+                max_pair.longer_pos = longer_pos;
+                max_pair.shorter_pos = shorter_pos;
+                max_pair.overlap = overlap;
             }
         }
     }
     return max_pair;
 }
 
-void merge_pair(FragmentHolder* fh, Pair* p)
+int merge_pair(FragmentHolder* fh, Pair* p)
 {
     if (!p->overlap) {
-        return;
+        return -1;
     }
 
     Fragment* begin = (p->longer_pos != 0) ? p->longer : p->shorter;
@@ -251,6 +247,7 @@ void merge_pair(FragmentHolder* fh, Pair* p)
 
     Fragment* longer = fragmentholder_meld_one_off(fh, p->longer, p->shorter);
     fragment_replace(longer, merged, merged_length);
+    return 0;
 }
 
 
@@ -266,12 +263,8 @@ int main(int argc, char* argv[])
     FragmentHolder* fh = get_fragments(argv[1]);
 
     while (fh->count > 1) {
-        int count_before = fh->count;
-
         Pair max_pair = get_max_overlap_pair(fh);
-        merge_pair(fh, &max_pair);
-
-        if (fh->count == count_before) {
+        if (merge_pair(fh, &max_pair) < 0) {
             printf("Unable to reassemble into one fragment.\n");
             break;
         }

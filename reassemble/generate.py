@@ -11,7 +11,7 @@ def main():
     for _ in xrange(num_of_fragments):
         begin = random.randint(0, len(sentence) - 2)
         end = random.randint(begin + 1,
-                             min(begin + 10, len(sentence)))
+                             min(begin + len(sentence)/2, len(sentence)))
         print '{%s}' % (sentence[begin:end])
 
 if __name__ == '__main__':
