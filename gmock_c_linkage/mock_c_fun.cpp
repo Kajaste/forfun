@@ -30,7 +30,7 @@
         RETURN (MOCK).NAME(p1, p2, p3, p4, p5); \
     }
 
-#define C_FUN_MOCK4(MOCK, NAME, RETURN, RETURN_TYPE, T1, T2, T3, T4, T5, T6) \
+#define C_FUN_MOCK6(MOCK, NAME, RETURN, RETURN_TYPE, T1, T2, T3, T4, T5, T6) \
     extern "C" RETURN_TYPE NAME(T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6) { \
         RETURN (MOCK).NAME(p1, p2, p3, p4, p5, p6); \
     }
