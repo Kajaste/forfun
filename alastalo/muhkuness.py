@@ -45,6 +45,8 @@ def get_most_muhku_wordpairs(words):
         for w2 in words[i:]:
             m = len(w1.letters | w2.letters)
             if m < muhku:
+                if len(w1.letters) + len(w2.letters) < muhku:
+                    break
                 continue
             elif m > muhku:
                 pairs = [(w1, w2)]
