@@ -34,23 +34,22 @@ def print_most_muhku_wordpairs(wordpairs):
 
 
 def get_most_muhku_wordpairs(words):
-    pairs = []
-    muhku = 0
+    pairs, max_muhku, i = [], 0, 0
     words = sorted(words, key=lambda x: len(x.letters), reverse=True)
-    i = 0
     for w1 in words:
-        if len(w1.letters) * 2 < muhku:
+        if len(w1.letters) * 2 < max_muhku:
             break
         i += 1
         for w2 in words[i:]:
             m = len(w1.letters | w2.letters)
-            if m < muhku:
-                if len(w1.letters) + len(w2.letters) < muhku:
+            if m < max_muhku:
+                if len(w1.letters) + len(w2.letters) < max_muhku:
                     break
                 continue
-            elif m > muhku:
+            
+            if m > max_muhku:
                 pairs = [(w1, w2)]
-                muhku = m
+                max_muhku = m
             else:
                 pairs.append((w1, w2))
     return pairs
