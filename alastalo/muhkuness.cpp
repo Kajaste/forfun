@@ -22,11 +22,11 @@ public:
 
     void setLetters()
     {
-        for (auto letter : word) { setLetterBit(letters, letter); }
+        for (auto letter : word) { setLetterBit(letter); }
         letterCount = letters.count();
     }
 
-    void setLetterBit(LetterSet& letters, char letter)
+    void setLetterBit(char letter)
     {
         switch ((unsigned char)letter)
         {
@@ -75,23 +75,23 @@ getMostMuhkuWordPairs(std::vector<Word>& words)
                 { return (w.letterCount > o.letterCount); });
 
     std::vector<WordPair> pairs;
-    unsigned max_muhku = 0;
+    unsigned maxMuhku = 0;
     for (auto i(words.begin()), e = words.end(); i != e; ++i)
     {
-        if (i->letterCount * 2 < max_muhku) { break; }
+        if (i->letterCount * 2 < maxMuhku) { break; }
 
         for (auto j(i); j != e; ++j)
         {
             unsigned m = (i->letters | j->letters).count();
-            if (m < max_muhku)
+            if (m < maxMuhku)
             {
-                if (i->letterCount + j->letterCount < max_muhku) { break; }
+                if (i->letterCount + j->letterCount < maxMuhku) { break; }
                 continue;
             }
 
-            if (m > max_muhku)
+            if (m > maxMuhku)
             {
-                max_muhku = m;
+                maxMuhku = m;
                 pairs = { WordPair(*i, *j) };
             }
             else
