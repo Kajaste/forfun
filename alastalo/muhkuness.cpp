@@ -4,7 +4,6 @@
 #include <set>
 #include <string>
 
-#include <boost/algorithm/string.hpp>
 #include <boost/locale.hpp>
 
 typedef std::bitset<29> LetterSet;
@@ -13,21 +12,21 @@ static inline void setLetterBit(LetterSet& letters, char letter)
 {
     switch ((unsigned char)letter)
     {
-    case 0xE5: letters.set(26); break; // å
-    case 0xE4: letters.set(27); break; // ä
-    case 0xF6: letters.set(28); break; // ö
+    case 0xC5:                          // Å
+    case 0xE5: letters.set(26); return; // å
+    case 0xC4:                          // Ä
+    case 0xE4: letters.set(27); return; // ä
+    case 0xD6:                          // Ö
+    case 0xF6: letters.set(28); return; // ö
     }
-    if (letter >= 'a' && letter <= 'z')
-    {
-        letters.set(letter - 'a');
-    }
+    if (letter >= 'a' && letter <= 'z') { letters.set(letter - 'a'); }
+    else if (letter >= 'A' && letter <= 'Z') { letters.set(letter - 'A'); }
 }
 
 class Word {
 public:
-    Word(const std::wstring& w, const std::locale& loc)
-    : word(boost::locale::conv::from_utf(boost::locale::to_lower(w, loc),
-                                         "Latin1")),
+    Word(const std::wstring& w)
+    : word(boost::locale::conv::from_utf(w, "Latin1")),
       letters()
     {
         word.erase(std::remove_if(word.begin(),
@@ -38,10 +37,7 @@ public:
 
     void setLetters()
     {
-        for (auto letter : word)
-        {
-            setLetterBit(letters, letter);
-        }
+        for (auto letter : word) { setLetterBit(letters, letter); }
         letterCount = letters.count();
     }
 
@@ -63,7 +59,7 @@ std::vector<Word> getWords(const std::string& file)
     std::wifstream f(file);
     std::set<Word> wordset;
     std::wstring word;
-    while (f >> word) { wordset.emplace(Word(word, loc)); }
+    while (f >> word) { wordset.emplace(Word(word)); }
 
     std::vector<Word> words(wordset.begin(), wordset.end());
     std::for_each(words.begin(), words.end(),
