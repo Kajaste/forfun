@@ -8,24 +8,9 @@
 
 typedef std::bitset<29> LetterSet;
 
-static inline void setLetterBit(LetterSet& letters, char letter)
-{
-    switch ((unsigned char)letter)
-    {
-    case 0xC5:                          // Å
-    case 0xE5: letters.set(26); return; // å
-    case 0xC4:                          // Ä
-    case 0xE4: letters.set(27); return; // ä
-    case 0xD6:                          // Ö
-    case 0xF6: letters.set(28); return; // ö
-    }
-    if (letter >= 'a' && letter <= 'z') { letters.set(letter - 'a'); }
-    else if (letter >= 'A' && letter <= 'Z') { letters.set(letter - 'A'); }
-}
-
 class Word {
 public:
-    Word(const std::wstring& w)
+    explicit Word(const std::wstring& w)
     : word(boost::locale::conv::from_utf(w, "Latin1")),
       letters()
     {
@@ -39,6 +24,21 @@ public:
     {
         for (auto letter : word) { setLetterBit(letters, letter); }
         letterCount = letters.count();
+    }
+
+    void setLetterBit(LetterSet& letters, char letter)
+    {
+        switch ((unsigned char)letter)
+        {
+        case 0xC5:                          // Å
+        case 0xE5: letters.set(26); return; // å
+        case 0xC4:                          // Ä
+        case 0xE4: letters.set(27); return; // ä
+        case 0xD6:                          // Ö
+        case 0xF6: letters.set(28); return; // ö
+        }
+        if (letter >= 'a' && letter <= 'z') { letters.set(letter - 'a'); }
+        else if (letter >= 'A' && letter <= 'Z') { letters.set(letter - 'A'); }
     }
 
     bool operator<(const Word& other) const { return (word > other.word); }
@@ -76,15 +76,13 @@ getMostMuhkuWordPairs(std::vector<Word>& words)
 
     std::vector<WordPair> pairs;
     unsigned max_muhku = 0;
-    LetterSet letterset;
     for (auto i(words.begin()), e = words.end(); i != e; ++i)
     {
         if (i->letterCount * 2 < max_muhku) { break; }
 
         for (auto j(i); j != e; ++j)
         {
-            letterset = i->letters | j->letters;
-            unsigned m = letterset.count();
+            unsigned m = (i->letters | j->letters).count();
             if (m < max_muhku)
             {
                 if (i->letterCount + j->letterCount < max_muhku) { break; }
