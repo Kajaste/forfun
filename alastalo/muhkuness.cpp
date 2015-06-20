@@ -1,62 +1,60 @@
+#include <bitset>
 #include <fstream>
 #include <iostream>
-#include <list>
 #include <set>
 #include <string>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/locale.hpp>
 
-static const std::set<unsigned char> FINNISH_LETTERS
-        {'a', 'b', 'c', 'd', 'e', 'f', 'g',
-         'h', 'i', 'j', 'k', 'l', 'm', 'n',
-         'o', 'p', 'q', 'r', 's', 't', 'u',
-         'v', 'w', 'x', 'y', 'z', 0xE5, 0xE4, 0xF6 };
+typedef std::bitset<29> LetterSet;
+
+static inline void setLetterBit(LetterSet& letters, char letter)
+{
+    switch ((unsigned char)letter)
+    {
+    case 0xE5: letters.set(26); break; // å
+    case 0xE4: letters.set(27); break; // ä
+    case 0xF6: letters.set(28); break; // ö
+    }
+    if (letter >= 'a' && letter <= 'z')
+    {
+        letters.set(letter - 'a');
+    }
+}
 
 class Word {
 public:
-    Word(const std::wstring& w,
-         const std::locale& loc) : word(),
-                                   letters()
+    Word(const std::wstring& w, const std::locale& loc)
+    : word(boost::locale::conv::from_utf(boost::locale::to_lower(w, loc),
+                                         "Latin1")),
+      letters()
     {
-        word = boost::locale::conv::from_utf(boost::locale::to_lower(w, loc),
-                                             "Latin1");
         word.erase(std::remove_if(word.begin(),
                                   word.end(),
                                   (int(*)(int))std::ispunct),
                    word.end());
-
-        std::set<unsigned char> letterset(word.begin(), word.end());
-        std::set_intersection(letterset.begin(), letterset.end(),
-                              FINNISH_LETTERS.begin(), FINNISH_LETTERS.end(),
-                              std::inserter(letters, letters.begin()));
     }
 
-    void printWord()
+    void setLetters()
     {
-        std::cout << boost::locale::conv::to_utf<char>(word, "Latin1") << std::endl;
-    }
-    void printLetters()
-    {
-        for (auto i : letters)
+        for (auto letter : word)
         {
-            char arr[2] = {i, 0};
-            std::cout << boost::locale::conv::to_utf<char>(std::string(arr), "Latin1") << std::endl;
+            setLetterBit(letters, letter);
         }
+        letterCount = letters.count();
     }
 
     bool operator<(const Word& other) const { return (word > other.word); }
 
     std::string word;
-    std::set<char> letters;
-
-private:
-
+    LetterSet letters;
+    unsigned letterCount;
 };
 
 typedef std::pair<Word, Word> WordPair;
 
-std::list<Word> getWords(const std::string& file)
+std::vector<Word> getWords(const std::string& file)
 {
     boost::locale::generator gen;
     std::locale loc(gen("fi_FI.UTF-8"));
@@ -65,46 +63,35 @@ std::list<Word> getWords(const std::string& file)
     std::wifstream f(file);
     std::set<Word> wordset;
     std::wstring word;
-    while (f >> word)
-    {
-        wordset.emplace(Word(word, loc));
-    }
+    while (f >> word) { wordset.emplace(Word(word, loc)); }
 
-    std::list<Word> words(wordset.begin(), wordset.end());
+    std::vector<Word> words(wordset.begin(), wordset.end());
+    std::for_each(words.begin(), words.end(),
+                  [](Word& w) { w.setLetters(); });
     return words;
 }
 
 std::vector<WordPair>
-getMostMuhkuWordPairs(std::list<Word>& words)
+getMostMuhkuWordPairs(std::vector<Word>& words)
 {
+    std::sort(words.begin(), words.end(),
+              [](const Word& w, const Word& o)
+                { return (w.letterCount > o.letterCount); });
+
     std::vector<WordPair> pairs;
-
     unsigned max_muhku = 0;
-
-    words.sort([](const Word& w, const Word& o)
-               { return (w.letters.size() > o.letters.size()); });
-
-    std::vector<char> letterset;
+    LetterSet letterset;
     for (auto i(words.begin()), e = words.end(); i != e; ++i)
     {
-        if (i->letters.size() * 2 < max_muhku)
-        {
-            break;
-        }
+        if (i->letterCount * 2 < max_muhku) { break; }
 
         for (auto j(i); j != e; ++j)
         {
-            letterset.clear();
-            std::set_union(i->letters.begin(), i->letters.end(),
-                           j->letters.begin(), j->letters.end(),
-                           std::back_inserter(letterset));
-            unsigned m = letterset.size();
+            letterset = i->letters | j->letters;
+            unsigned m = letterset.count();
             if (m < max_muhku)
             {
-                if (i->letters.size() + j->letters.size() < max_muhku)
-                {
-                    break;
-                }
+                if (i->letterCount + j->letterCount < max_muhku) { break; }
                 continue;
             }
 
@@ -129,11 +116,9 @@ int main(int argc, char* argv[])
     {
         std::cout << "USAGE: " << argv[0] << " TEXTFILE" << std::endl;
     }
-    std::list<Word> words(getWords(argv[1]));
-
+    std::vector<Word> words(getWords(argv[1]));
     std::vector<WordPair> pairs(getMostMuhkuWordPairs(words));
 
-    std::cout << "Pairs:" << std::endl;
     for (auto i : pairs)
     {
         std::cout << boost::locale::conv::to_utf<char>(i.first.word, "Latin1") << ", "
