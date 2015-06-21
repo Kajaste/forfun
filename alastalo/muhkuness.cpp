@@ -1,3 +1,9 @@
+/*
+ * From a text file containing Finnish (a-z + åäö) text in UTF-8 encoding,
+ * find the pairs of words (WORD1, WORD2) such that WORD1 != WORD2 and that
+ * no other word pair contains a larger set of unique letters.
+ */
+
 #include <bitset>
 #include <fstream>
 #include <iostream>
@@ -78,7 +84,7 @@ getMostMuhkuWordPairs(std::vector<Word>& words)
     {
         if (i->letterCount * 2 < maxMuhku) { break; }
 
-        for (auto j(i); j != e; ++j)
+        for (auto j(i + 1); j != e; ++j)
         {
             unsigned m = (i->letters | j->letters).count();
             if (m < maxMuhku)
