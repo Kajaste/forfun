@@ -6,7 +6,7 @@ LIBFLAGS = -lboost_locale
 
 SOURCES = $(wildcard *.cpp)
 all: $(SOURCES)
-	$(CCX) $(CXXFLAGS) -o $(PROGRAM) $(SOURCES) $(LIBFLAGS)
+	$(CCX) $(CXXFLAGS) $(DEBUGFLAGS) -o $(PROGRAM) $(SOURCES) $(LIBFLAGS)
 
 .PHONY: clean
 clean:

@@ -16,8 +16,9 @@ typedef std::bitset<29> LetterSet;
 
 class Word {
 public:
-    explicit Word(const std::wstring& w) : word(), letters()
+    explicit Word(const std::wstring& w) : word(), letters(), letterCount()
     {
+        word.reserve(w.size());
         for (auto wletter : w)
         {
             if (!std::ispunct(wletter)) { word += std::tolower(wletter); }
@@ -32,17 +33,19 @@ public:
 
     void setLetterBit(char letter)
     {
-        switch ((unsigned char)letter)
-        {
-        case 0xC5:                          // Å
-        case 0xE5: letters.set(26); return; // å
-        case 0xC4:                          // Ä
-        case 0xE4: letters.set(27); return; // ä
-        case 0xD6:                          // Ö
-        case 0xF6: letters.set(28); return; // ö
-        }
         if (letter >= 'a' && letter <= 'z') { letters.set(letter - 'a'); }
         else if (letter >= 'A' && letter <= 'Z') { letters.set(letter - 'A'); }
+        else {
+            switch ((unsigned char)letter)
+            {
+            case 0xC5:                          // Å
+            case 0xE5: letters.set(26); return; // å
+            case 0xC4:                          // Ä
+            case 0xE4: letters.set(27); return; // ä
+            case 0xD6:                          // Ö
+            case 0xF6: letters.set(28); return; // ö
+            }
+        }
     }
 
     bool operator<(const Word& other) const { return (word > other.word); }
@@ -86,7 +89,7 @@ getMostMuhkuWordPairs(std::vector<Word>& words)
 
         for (auto j(i + 1); j != e; ++j)
         {
-            unsigned m = (i->letters | j->letters).count();
+            unsigned m((i->letters | j->letters).count());
             if (m < maxMuhku)
             {
                 if (i->letterCount + j->letterCount < maxMuhku) { break; }
