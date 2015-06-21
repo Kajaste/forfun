@@ -10,14 +10,12 @@ typedef std::bitset<29> LetterSet;
 
 class Word {
 public:
-    explicit Word(const std::wstring& w)
-    : word(boost::locale::conv::from_utf(w, "Latin1")),
-      letters()
+    explicit Word(const std::wstring& w) : word(), letters()
     {
-        word.erase(std::remove_if(word.begin(),
-                                  word.end(),
-                                  (int(*)(int))std::ispunct),
-                   word.end());
+        for (auto wletter : w)
+        {
+            if (!std::ispunct(wletter)) { word += std::tolower(wletter); }
+        }
     }
 
     void setLetters()
@@ -76,7 +74,7 @@ getMostMuhkuWordPairs(std::vector<Word>& words)
 
     std::vector<WordPair> pairs;
     unsigned maxMuhku = 0;
-    for (auto i(words.begin()), e = words.end(); i != e; ++i)
+    for (auto i(words.begin()), e(words.end()); i != e; ++i)
     {
         if (i->letterCount * 2 < maxMuhku) { break; }
 
