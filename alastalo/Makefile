@@ -2,11 +2,10 @@ PROGRAM = muhkuness
 
 CCX = g++
 CXXFLAGS = -Wall -Wextra -Werror -std=gnu++11 -O3 -march=native
-LIBFLAGS = -lboost_locale
 
 SOURCES = $(wildcard *.cpp)
 all: $(SOURCES)
-	$(CCX) $(CXXFLAGS) $(DEBUGFLAGS) -o $(PROGRAM) $(SOURCES) $(LIBFLAGS)
+	$(CCX) $(CXXFLAGS) $(DEBUGFLAGS) -o $(PROGRAM) $(SOURCES)
 
 .PHONY: clean
 clean:

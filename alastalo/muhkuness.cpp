@@ -4,24 +4,69 @@
  * no other word pair contains a larger set of unique letters.
  */
 
+#include <algorithm>
 #include <bitset>
 #include <fstream>
 #include <iostream>
+#include <climits>
 #include <set>
 #include <string>
-
-#include <boost/locale.hpp>
+#include <vector>
 
 typedef std::bitset<29> LetterSet;
 
+// Unicode code points for the non-ASCII characters
+#define AO 0xE5
+#define AE 0xE4
+#define OE 0xF6
+
 class Word {
 public:
+    static std::vector<Word> getWords(const std::string& file)
+    {
+        std::wifstream f(file);
+        f.imbue(std::locale("fi_FI.UTF-8"));
+        std::set<Word> wordset;
+        std::wstring word;
+        while (f >> word) { wordset.emplace(Word(word)); }
+
+        std::vector<Word> words(wordset.begin(), wordset.end());
+        std::for_each(words.begin(), words.end(),
+                      [](Word& w) { w.setLetters(); });
+        return words;
+    }
+
+    bool operator<(const Word& other) const { return (word > other.word); }
+
+    friend std::ostream& operator<<(std::ostream& os, const Word& w)
+    {
+        for (auto i : w.word)
+        {
+            switch (static_cast<unsigned char>(i))
+            { // Unicode code point -> UTF-8
+            case AO: os << "å"; break;
+            case AE: os << "ä"; break;
+            case OE: os << "ö"; break;
+            default: os << i;
+            }
+        }
+        return os;
+    }
+
+    std::string word;
+    LetterSet letters;
+    unsigned letterCount;
+
+private:
     explicit Word(const std::wstring& w) : word(), letters(), letterCount()
     {
         word.reserve(w.size());
         for (auto wletter : w)
         {
-            if (!std::ispunct(wletter)) { word += std::tolower(wletter); }
+            if (wletter <= UCHAR_MAX && !std::ispunct(wletter))
+            {
+                word += std::towlower(wletter);
+            }
         }
     }
 
@@ -35,44 +80,19 @@ public:
     {
         if (letter >= 'a' && letter <= 'z') { letters.set(letter - 'a'); }
         else if (letter >= 'A' && letter <= 'Z') { letters.set(letter - 'A'); }
-        else {
-            switch ((unsigned char)letter)
+        else { // Non-ASCII code points
+            switch (static_cast<unsigned char>(letter))
             {
-            case 0xC5:                          // Å
-            case 0xE5: letters.set(26); return; // å
-            case 0xC4:                          // Ä
-            case 0xE4: letters.set(27); return; // ä
-            case 0xD6:                          // Ö
-            case 0xF6: letters.set(28); return; // ö
+            case AO: letters.set(26); return;
+            case AE: letters.set(27); return;
+            case OE: letters.set(28); return;
             }
         }
     }
 
-    bool operator<(const Word& other) const { return (word > other.word); }
-
-    std::string word;
-    LetterSet letters;
-    unsigned letterCount;
 };
 
 typedef std::pair<Word, Word> WordPair;
-
-std::vector<Word> getWords(const std::string& file)
-{
-    boost::locale::generator gen;
-    std::locale loc(gen("fi_FI.UTF-8"));
-    std::locale::global(loc);
-
-    std::wifstream f(file);
-    std::set<Word> wordset;
-    std::wstring word;
-    while (f >> word) { wordset.emplace(Word(word)); }
-
-    std::vector<Word> words(wordset.begin(), wordset.end());
-    std::for_each(words.begin(), words.end(),
-                  [](Word& w) { w.setLetters(); });
-    return words;
-}
 
 std::vector<WordPair>
 getMostMuhkuWordPairs(std::vector<Word>& words)
@@ -89,16 +109,16 @@ getMostMuhkuWordPairs(std::vector<Word>& words)
 
         for (auto j(i + 1); j != e; ++j)
         {
-            unsigned m((i->letters | j->letters).count());
-            if (m < maxMuhku)
+            unsigned muhku = (i->letters | j->letters).count();
+            if (muhku < maxMuhku)
             {
                 if (i->letterCount + j->letterCount < maxMuhku) { break; }
                 continue;
             }
 
-            if (m > maxMuhku)
+            if (muhku > maxMuhku)
             {
-                maxMuhku = m;
+                maxMuhku = muhku;
                 pairs = { WordPair(*i, *j) };
             }
             else
@@ -117,12 +137,12 @@ int main(int argc, char* argv[])
     {
         std::cout << "USAGE: " << argv[0] << " TEXTFILE" << std::endl;
     }
-    std::vector<Word> words(getWords(argv[1]));
+
+    std::vector<Word> words(Word::getWords(argv[1]));
     std::vector<WordPair> pairs(getMostMuhkuWordPairs(words));
 
     for (auto i : pairs)
     {
-        std::cout << boost::locale::conv::to_utf<char>(i.first.word, "Latin1") << ", "
-                  << boost::locale::conv::to_utf<char>(i.second.word, "Latin1") << std::endl;
+        std::cout << i.first << ", " << i.second << std::endl;
     }
 }
