@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from itertools import groupby
 import string
 import sys
 
@@ -26,14 +27,10 @@ def get_most_hassu_words(words):
 
 def compute_hassu(word):
     hassu = 0
-    streak = 0
-    for letter in word:
-        if letter in FINNISH_VOWELS:
-            streak += 1
-        else:
+    for k, g in groupby(word, lambda x: x in FINNISH_VOWELS):
+        if k:
+            streak = len(list(g))
             hassu += streak * 2**streak
-            streak = 0
-    hassu += streak * 2**streak
     return hassu
 
 
