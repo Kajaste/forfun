@@ -28,7 +28,7 @@ public:
         f.imbue(std::locale("fi_FI.UTF-8"));
         std::set<Word> wordset;
         std::wstring word;
-        while (f >> word) { wordset.emplace(Word(word)); }
+        while (f >> word) { wordset.emplace(word); }
 
         std::vector<Word> words(wordset.begin(), wordset.end());
         std::for_each(words.begin(), words.end(),
@@ -57,7 +57,6 @@ public:
     LetterSet letters;
     unsigned letterCount;
 
-private:
     explicit Word(const std::wstring& w) : word(), letters(), letterCount()
     {
         word.reserve(w.size());
@@ -70,6 +69,7 @@ private:
         }
     }
 
+private:
     void setLetters()
     {
         for (auto letter : word) { setLetterBit(letter); }
@@ -89,7 +89,6 @@ private:
             }
         }
     }
-
 };
 
 typedef std::pair<Word, Word> WordPair;
@@ -123,7 +122,7 @@ getMostMuhkuWordPairs(std::vector<Word>& words)
             }
             else
             {
-                pairs.push_back(WordPair(*i, *j));
+                pairs.emplace_back(*i, *j);
             }
         }
     }
