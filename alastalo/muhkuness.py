@@ -8,17 +8,11 @@ FINNISH_LETTERS = frozenset('abcdefghijklmnopqrstuvwxyzåäö')
 
 class Word:
     def __init__(self, w):
-        self.word = w.strip(string.punctuation).lower()
-        self.letters = frozenset(w) & FINNISH_LETTERS
-
-    def __eq__(self, other):
-        return self.word.__eq__(other.word)
-
-    def __hash__(self):
-        return self.word.__hash__()
+        self.word = w
+        self.letters = frozenset(self.word) & FINNISH_LETTERS
 
     def __repr__(self):
-        return self.word.__repr__()
+        return self.word
 
 
 def main(argv):
@@ -41,13 +35,12 @@ def get_most_muhku_wordpairs(words):
             break
         i += 1
         for w2 in words[i:]:
+            if len(w1.letters) + len(w2.letters) < max_muhku:
+                break
             m = len(w1.letters | w2.letters)
             if m < max_muhku:
-                if len(w1.letters) + len(w2.letters) < max_muhku:
-                    break
                 continue
-
-            if m > max_muhku:
+            elif m > max_muhku:
                 pairs = [(w1, w2)]
                 max_muhku = m
             else:
@@ -57,8 +50,9 @@ def get_most_muhku_wordpairs(words):
 
 def get_words(filename):
     with open(filename) as source_file:
-        return frozenset(Word(w) for w in source_file.read().split())
-
+        words = frozenset(w.strip(string.punctuation).lower()
+                          for w in source_file.read().split())
+    return (Word(w) for w in words)
 
 if __name__ == '__main__':
     main(sys.argv)
