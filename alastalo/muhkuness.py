@@ -46,7 +46,7 @@ def get_most_muhku_wordpairs(words):
                 if len(w1.letters) + len(w2.letters) < max_muhku:
                     break
                 continue
-            
+
             if m > max_muhku:
                 pairs = [(w1, w2)]
                 max_muhku = m

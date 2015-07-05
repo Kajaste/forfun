@@ -1,0 +1,152 @@
+10 consecutive runs (MacBook Pro early 2015, 2.9 GHz i5, Apple LLVM 6.1.0):
+
+Antti-MacBook-Pro:alastalo kaja$ time ./muhkuness alastalon_salissa.txt 
+köydenpingottuvaa, järjensyhyttelemisen
+vahingonpillastumisen, kirjoituspöydän
+vahingonpillastumisen, kirjoituspöydältä
+vahingonpillastumisen, kirjoituspöydästä
+vahingonpillastumisen, keräjäpöydän
+kirjoituspöydän, vahingonkamfiili
+kirjoituspöydältä, vahingonkamfiili
+kirjoituspöydille, vahingonkamfiili
+kirjoituspöydästä, vahingonkamfiili
+
+real	0m0.193s
+user	0m0.183s
+sys	0m0.007s
+
+Antti-MacBook-Pro:alastalo kaja$ time ./muhkuness alastalon_salissa.txt 
+köydenpingottuvaa, järjensyhyttelemisen
+vahingonpillastumisen, kirjoituspöydän
+vahingonpillastumisen, kirjoituspöydältä
+vahingonpillastumisen, kirjoituspöydästä
+vahingonpillastumisen, keräjäpöydän
+kirjoituspöydän, vahingonkamfiili
+kirjoituspöydältä, vahingonkamfiili
+kirjoituspöydille, vahingonkamfiili
+kirjoituspöydästä, vahingonkamfiili
+
+real	0m0.191s
+user	0m0.182s
+sys	0m0.007s
+
+Antti-MacBook-Pro:alastalo kaja$ time ./muhkuness alastalon_salissa.txt 
+köydenpingottuvaa, järjensyhyttelemisen
+vahingonpillastumisen, kirjoituspöydän
+vahingonpillastumisen, kirjoituspöydältä
+vahingonpillastumisen, kirjoituspöydästä
+vahingonpillastumisen, keräjäpöydän
+kirjoituspöydän, vahingonkamfiili
+kirjoituspöydältä, vahingonkamfiili
+kirjoituspöydille, vahingonkamfiili
+kirjoituspöydästä, vahingonkamfiili
+
+real	0m0.190s
+user	0m0.180s
+sys	0m0.008s
+
+Antti-MacBook-Pro:alastalo kaja$ time ./muhkuness alastalon_salissa.txt 
+köydenpingottuvaa, järjensyhyttelemisen
+vahingonpillastumisen, kirjoituspöydän
+vahingonpillastumisen, kirjoituspöydältä
+vahingonpillastumisen, kirjoituspöydästä
+vahingonpillastumisen, keräjäpöydän
+kirjoituspöydän, vahingonkamfiili
+kirjoituspöydältä, vahingonkamfiili
+kirjoituspöydille, vahingonkamfiili
+kirjoituspöydästä, vahingonkamfiili
+
+real	0m0.194s
+user	0m0.185s
+sys	0m0.007s
+
+Antti-MacBook-Pro:alastalo kaja$ time ./muhkuness alastalon_salissa.txt 
+köydenpingottuvaa, järjensyhyttelemisen
+vahingonpillastumisen, kirjoituspöydän
+vahingonpillastumisen, kirjoituspöydältä
+vahingonpillastumisen, kirjoituspöydästä
+vahingonpillastumisen, keräjäpöydän
+kirjoituspöydän, vahingonkamfiili
+kirjoituspöydältä, vahingonkamfiili
+kirjoituspöydille, vahingonkamfiili
+kirjoituspöydästä, vahingonkamfiili
+
+real	0m0.190s
+user	0m0.180s
+sys	0m0.007s
+
+Antti-MacBook-Pro:alastalo kaja$ time ./muhkuness alastalon_salissa.txt 
+köydenpingottuvaa, järjensyhyttelemisen
+vahingonpillastumisen, kirjoituspöydän
+vahingonpillastumisen, kirjoituspöydältä
+vahingonpillastumisen, kirjoituspöydästä
+vahingonpillastumisen, keräjäpöydän
+kirjoituspöydän, vahingonkamfiili
+kirjoituspöydältä, vahingonkamfiili
+kirjoituspöydille, vahingonkamfiili
+kirjoituspöydästä, vahingonkamfiili
+
+real	0m0.196s
+user	0m0.186s
+sys	0m0.007s
+
+Antti-MacBook-Pro:alastalo kaja$ time ./muhkuness alastalon_salissa.txt 
+köydenpingottuvaa, järjensyhyttelemisen
+vahingonpillastumisen, kirjoituspöydän
+vahingonpillastumisen, kirjoituspöydältä
+vahingonpillastumisen, kirjoituspöydästä
+vahingonpillastumisen, keräjäpöydän
+kirjoituspöydän, vahingonkamfiili
+kirjoituspöydältä, vahingonkamfiili
+kirjoituspöydille, vahingonkamfiili
+kirjoituspöydästä, vahingonkamfiili
+
+real	0m0.188s
+user	0m0.179s
+sys	0m0.007s
+
+Antti-MacBook-Pro:alastalo kaja$ time ./muhkuness alastalon_salissa.txt 
+köydenpingottuvaa, järjensyhyttelemisen
+vahingonpillastumisen, kirjoituspöydän
+vahingonpillastumisen, kirjoituspöydältä
+vahingonpillastumisen, kirjoituspöydästä
+vahingonpillastumisen, keräjäpöydän
+kirjoituspöydän, vahingonkamfiili
+kirjoituspöydältä, vahingonkamfiili
+kirjoituspöydille, vahingonkamfiili
+kirjoituspöydästä, vahingonkamfiili
+
+real	0m0.188s
+user	0m0.178s
+sys	0m0.007s
+
+Antti-MacBook-Pro:alastalo kaja$ time ./muhkuness alastalon_salissa.txt 
+köydenpingottuvaa, järjensyhyttelemisen
+vahingonpillastumisen, kirjoituspöydän
+vahingonpillastumisen, kirjoituspöydältä
+vahingonpillastumisen, kirjoituspöydästä
+vahingonpillastumisen, keräjäpöydän
+kirjoituspöydän, vahingonkamfiili
+kirjoituspöydältä, vahingonkamfiili
+kirjoituspöydille, vahingonkamfiili
+kirjoituspöydästä, vahingonkamfiili
+
+real	0m0.191s
+user	0m0.180s
+sys	0m0.008s
+
+Antti-MacBook-Pro:alastalo kaja$ time ./muhkuness alastalon_salissa.txt 
+köydenpingottuvaa, järjensyhyttelemisen
+vahingonpillastumisen, kirjoituspöydän
+vahingonpillastumisen, kirjoituspöydältä
+vahingonpillastumisen, kirjoituspöydästä
+vahingonpillastumisen, keräjäpöydän
+kirjoituspöydän, vahingonkamfiili
+kirjoituspöydältä, vahingonkamfiili
+kirjoituspöydille, vahingonkamfiili
+kirjoituspöydästä, vahingonkamfiili
+
+real	0m0.193s
+user	0m0.182s
+sys	0m0.008s
+

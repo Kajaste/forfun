@@ -79,8 +79,8 @@ private:
     void setLetterBit(char letter)
     {
         if (letter >= 'a' && letter <= 'z') { letters.set(letter - 'a'); }
-        else if (letter >= 'A' && letter <= 'Z') { letters.set(letter - 'A'); }
-        else { // Non-ASCII code points
+        else
+        { // Non-ASCII code points
             switch (static_cast<unsigned char>(letter))
             {
             case AO: letters.set(26); return;
