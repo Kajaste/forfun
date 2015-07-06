@@ -27,10 +27,10 @@ def get_most_hassu_words(words):
 
 def compute_hassu(word):
     hassu = 0
-    for k, g in groupby(word, lambda x: x in FINNISH_VOWELS):
-        if k:
-            streak = len(list(g))
-            hassu += streak * 2**streak
+    for streak in [len(list(g))
+                   for k, g in groupby(word, lambda x: x in FINNISH_VOWELS)
+                   if k]:
+        hassu += streak * 2**streak
     return hassu
 
 
