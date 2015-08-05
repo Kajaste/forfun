@@ -102,7 +102,7 @@ getMostMuhkuWordPairs(std::vector<Word>& words)
 
     std::vector<WordPair> pairs;
     unsigned maxMuhku = 0;
-    for (auto i(words.begin()), e(words.end()); i != e; ++i)
+    for (auto i(words.cbegin()), e(words.cend()); i != e; ++i)
     {
         if (i->letterCount * 2 < maxMuhku) { break; }
 
